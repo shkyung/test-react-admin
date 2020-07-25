@@ -7,12 +7,15 @@ import { UserList } from './users'
 import { PostList, PostEdit, PostCreate } from './posts'
 import Dashboard from './Dashboard'
 import authProvider from './authProvider'
+import Layout from './Layout'
+import { AppProvider } from './AppContext'
 
 const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com')
 
 function App() {
   return (
     <Admin
+      layout={Layout}
       dashboard={Dashboard}
       dataProvider={dataProvider}
       authProvider={authProvider}
@@ -24,6 +27,8 @@ function App() {
         create={PostCreate}
         icon={PostIcon}
       />
+      <Resource name="posts/1" list={PostList} />
+      <Resource name="posts/1/comments" list={PostList} />
       <Resource name="users" list={UserList} icon={UserIcon} />
     </Admin>
   )
