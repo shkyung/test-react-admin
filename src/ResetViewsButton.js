@@ -1,23 +1,17 @@
 // in ./ResetViewsButton.js
 import * as React from 'react'
+import { Fragment, useState } from 'react'
 import {
   Button,
+  Confirm,
   useUpdateMany,
   useRefresh,
   useNotify,
   useUnselectAll
 } from 'react-admin'
-import { VisibilityOff } from '@material-ui/icons'
 
-const ResetViewsButton = ({
-  selectedIds,
-  resource,
-  basePath,
-  filterValues
-}) => {
-  console.error(
-    `ResetViewsButton selectedIds: ${selectedIds}, resource: ${resource}, basePath: ${basePath}, filterValues: ${filterValues}`
-  )
+const ResetViewsButton = ({ selectedIds }) => {
+  const [open, setOpen] = useState(false)
   const refresh = useRefresh()
   const notify = useNotify()
   const unselectAll = useUnselectAll()
@@ -34,15 +28,26 @@ const ResetViewsButton = ({
       onFailure: (error) => notify('Error: posts not updated', 'warning')
     }
   )
+  const handleClick = () => setOpen(true)
+  const handleDialogClose = () => setOpen(false)
+
+  const handleConfirm = () => {
+    updateMany()
+    setOpen(false)
+  }
 
   return (
-    <Button
-      label="simple.action.resetViews"
-      disabled={loading}
-      onClick={updateMany}
-    >
-      <VisibilityOff />
-    </Button>
+    <Fragment>
+      <Button label="Reset Views" onClick={handleClick} />
+      <Confirm
+        isOpen={open}
+        loading={loading}
+        title="Update View Count"
+        content="Are you sure you want to reset the views for these items?"
+        onConfirm={handleConfirm}
+        onClose={handleDialogClose}
+      />
+    </Fragment>
   )
 }
 
