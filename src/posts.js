@@ -19,7 +19,8 @@ import {
   ExportButton,
   Button,
   sanitizeListRestProps,
-  BulkDeleteButton
+  BulkDeleteButton,
+  BooleanInput
 } from 'react-admin'
 
 import IconEvent from '@material-ui/icons/Event'
@@ -72,16 +73,20 @@ const ListActions = (props) => {
 
 const PostFilter = (props) => (
   <Filter {...props}>
+    {/*<TextInput label="Search" source="q" alwaysOn />*/}
+    {/*<ReferenceInput*/}
+    {/*  label="User"*/}
+    {/*  source="userId"*/}
+    {/*  reference="users"*/}
+    {/*  allowEmpty*/}
+    {/*  alwaysOn*/}
+    {/*>*/}
+    {/*  <SelectInput optionText="name" />*/}
+    {/*</ReferenceInput>*/}
     <TextInput label="Search" source="q" alwaysOn />
-    <ReferenceInput
-      label="User"
-      source="userId"
-      reference="users"
-      allowEmpty
-      alwaysOn
-    >
-      <SelectInput optionText="name" />
-    </ReferenceInput>
+    <BooleanInput source="is_published" alwaysOn />
+    {/*Error: Cannot use alwaysOn and defaultValue on a filter input. if below textinput has alwaysOn*/}
+    <TextInput source="title" defaultValue="Hello, World!" />
   </Filter>
 )
 
@@ -99,6 +104,7 @@ export const PostList = (props) => (
     bulkActionButtons={<PostBulkActionButtons />}
     actions={<ListActions />}
     filters={<PostFilter />}
+    filterDefaultValues={{ is_published: false }}
     {...props}
   >
     <Datagrid rowClick="edit">
