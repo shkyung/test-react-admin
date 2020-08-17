@@ -9,7 +9,15 @@ import {
 } from 'react-admin'
 import { VisibilityOff } from '@material-ui/icons'
 
-const ResetViewsButton = ({ selectedIds }) => {
+const ResetViewsButton = ({
+  selectedIds,
+  resource,
+  basePath,
+  filterValues
+}) => {
+  console.error(
+    `ResetViewsButton selectedIds: ${selectedIds}, resource: ${resource}, basePath: ${basePath}, filterValues: ${filterValues}`
+  )
   const refresh = useRefresh()
   const notify = useNotify()
   const unselectAll = useUnselectAll()
